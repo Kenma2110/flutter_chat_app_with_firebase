@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_app_with_firebase/core/utils/bloc_util.dart';
+import 'package:flutter_chat_app_with_firebase/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/router/routes.dart';
@@ -41,7 +43,12 @@ class LoginPage extends StatelessWidget {
           AppButton(
             text: 'Login',
             onPressed: () {
-              // Bloc event later
+              BlocUtil.of<AuthBloc>(context).add(
+                LoginRequest(
+                  email: _emailController.text,
+                  password: _passwordController.text,
+                ),
+              );
             },
           ),
 

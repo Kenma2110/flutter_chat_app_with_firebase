@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_app_with_firebase/core/theme/app_theme.dart';
 
 class AppScaffold extends StatelessWidget {
   final String? title;
@@ -17,17 +16,34 @@ class AppScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       appBar: title != null
           ? AppBar(
               title: Text(title!),
-              backgroundColor: AppTheme.darkTheme.appBarTheme.backgroundColor,
+              backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
             )
           : null,
       floatingActionButton: floatingActionButton,
       body: SafeArea(
-        child: Padding(padding: const EdgeInsets.all(16), child: body),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              padding: EdgeInsets.only(
+                left: 16,
+                right: 16,
+                top: 16,
+                bottom: mediaQuery.viewInsets.bottom + 16,
+              ),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: body,
+              ),
+            );
+          },
+        ),
       ),
     );
   }
