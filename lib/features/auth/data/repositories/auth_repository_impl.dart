@@ -1,27 +1,30 @@
-import 'package:flutter_chat_app_with_firebase/features/auth/data/datasources/auth_firebase_source.dart';
-import 'package:flutter_chat_app_with_firebase/features/auth/domain/entities/user_entity.dart';
-import 'package:flutter_chat_app_with_firebase/features/auth/domain/repositories/auth_repository.dart';
+import '../../domain/entities/user_entity.dart';
+import '../../domain/repositories/auth_repository.dart';
+import '../datasources/auth_firebase_source.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final AuthFirebaseSource source;
+  final AuthFirebaseSource _firebaseSource;
 
-  AuthRepositoryImpl(this.source);
+  AuthRepositoryImpl(this._firebaseSource);
 
   @override
   Future<UserEntity> loginWithEmail({
     required String email,
     required String password,
-  }) {
-    // return source.login();
-    throw UnimplementedError();
+  }) async {
+    return await _firebaseSource.login(email: email, password: password);
   }
 
   @override
   Future<UserEntity> signupWithEmail({
+    required String name,
     required String email,
     required String password,
-  }) {
-    // TODO: implement signupWithEmail
-    throw UnimplementedError();
+  }) async {
+    return await _firebaseSource.signup(
+      name: name,
+      email: email,
+      password: password,
+    );
   }
 }

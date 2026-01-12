@@ -1,3 +1,4 @@
+import 'package:flutter_chat_app_with_firebase/features/home/presentation/ui/home_screen.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/auth/presentation/ui/auth_login.dart';
@@ -18,6 +19,11 @@ class AppRouter {
         path: Routes.signup,
         name: 'signup',
         builder: (context, state) => SignupPage(),
+      ),
+      GoRoute(
+        path: Routes.home,
+        name: 'home',
+        builder: (context, state) => HomeScreen(),
       ),
     ],
   );

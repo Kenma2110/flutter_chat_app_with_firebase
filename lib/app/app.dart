@@ -4,6 +4,7 @@ import 'package:flutter_chat_app_with_firebase/app/router/app_router.dart';
 import 'package:flutter_chat_app_with_firebase/features/auth/presentation/bloc/auth_bloc.dart';
 
 import '../core/theme/app_theme.dart';
+import 'di.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => AuthBloc())],
+      providers: [BlocProvider<AuthBloc>(create: (_) => sl<AuthBloc>())],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,

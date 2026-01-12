@@ -11,9 +11,14 @@ class LoginRequest extends AuthEvent {
 }
 
 class SignUpRequest extends AuthEvent {
+  final String name;
   final String email;
   final String password;
-  const SignUpRequest({required this.email, required this.password});
+  const SignUpRequest({
+    required this.name,
+    required this.email,
+    required this.password,
+  });
 }
 
 class LogoutRequest extends AuthEvent {
