@@ -26,7 +26,7 @@ class SignupPage extends StatelessWidget {
           case AuthSuccess():
             context.go(Routes.home);
             break;
-          case AuthError():
+          case AuthFailure():
             print('Error: ${state.message}');
             break;
         }
@@ -66,7 +66,7 @@ class SignupPage extends StatelessWidget {
                 text: 'Create Account',
                 onPressed: () {
                   BlocUtil.of<AuthBloc>(context).add(
-                    SignUpRequest(
+                    SignUpRequestEvent(
                       name: _nameController.text,
                       email: _emailController.text,
                       password: _passwordController.text,

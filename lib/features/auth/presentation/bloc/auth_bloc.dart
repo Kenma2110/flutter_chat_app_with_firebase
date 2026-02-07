@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/entities/user_entity.dart';
@@ -10,52 +12,61 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
 
   AuthBloc(this._authRepository) : super(AuthInitial()) {
-    on<LoginRequest>(_onLoginRequested);
-    on<SignUpRequest>(_onSignupRequested);
-    // on<AuthLogoutRequested>(_onLogoutRequested);
+    on<LoginRequestEvent>(_onLogoutRequestEvent);
+    on<SignUpRequestEvent>(_onSignUpRequestEvent);
+    on<LogoutRequestEvent>(onLogoutRequestEvent);
   }
 
-  Future<void> _onLoginRequested(
-    LoginRequest event,
+  Future<void> _onLogoutRequestEvent(
+    LoginRequestEvent event,
     Emitter<AuthState> emit,
   ) async {
     emit(AuthLoading());
 
     try {
-      final user = await _authRepository.loginWithEmail(
+      final result = await _authRepository.loginWithEmail(
         email: event.email,
         password: event.password,
       );
-
-      emit(AuthSuccess(user: user));
+      result.fold(
+        (failure) {
+          emit(AuthFailure(message: failure.message));
+        },
+        (user) {
+          emit(AuthSuccess(user: user));
+        },
+      );
     } catch (e) {
-      emit(AuthError(message: e.toString()));
+      emit(AuthFailure(message: e.toString()));
     }
   }
 
-  Future<void> _onSignupRequested(
-    SignUpRequest event,
+  Future<void> _onSignUpRequestEvent(
+    SignUpRequestEvent event,
     Emitter<AuthState> emit,
   ) async {
     emit(AuthLoading());
 
     try {
-      final user = await _authRepository.signupWithEmail(
+      final result = await _authRepository.signupWithEmail(
         name: event.name,
         email: event.email,
         password: event.password,
       );
-
-      emit(AuthSuccess(user: user));
+      result.fold((failure) => emit(AuthFailure(message: failure.message)), (
+        user,
+      ) {
+        emit(AuthSuccess(user: user));
+      });
     } catch (e) {
-      emit(AuthError(message: e.toString()));
+      emit(AuthFailure(message: e.toString()));
     }
   }
 
-  // void _onLogoutRequested(
-  //     AuthLogoutRequested event,
-  //     Emitter<AuthState> emit,
-  //     ) {
-  //   emit(AuthUnauthenticated());
-  // }
+  Future<void> onLogoutRequestEvent(
+    LogoutRequestEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    await _authRepository.logout();
+  }
 }

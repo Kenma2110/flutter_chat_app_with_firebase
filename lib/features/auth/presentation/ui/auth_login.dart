@@ -44,7 +44,7 @@ class LoginPage extends StatelessWidget {
             text: 'Login',
             onPressed: () {
               BlocUtil.of<AuthBloc>(context).add(
-                LoginRequest(
+                LoginRequestEvent(
                   email: _emailController.text,
                   password: _passwordController.text,
                 ),

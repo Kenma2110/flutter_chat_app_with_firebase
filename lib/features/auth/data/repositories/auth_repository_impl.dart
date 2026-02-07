@@ -1,3 +1,5 @@
+import 'package:flutter_chat_app_with_firebase/core/typedefs/results.dart';
+
 import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_firebase_source.dart';
@@ -8,7 +10,7 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this._firebaseSource);
 
   @override
-  Future<UserEntity> loginWithEmail({
+  Future<Result<UserEntity>> loginWithEmail({
     required String email,
     required String password,
   }) async {
@@ -16,7 +18,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<UserEntity> signupWithEmail({
+  Future<Result<UserEntity>> signupWithEmail({
     required String name,
     required String email,
     required String password,
@@ -26,5 +28,15 @@ class AuthRepositoryImpl implements AuthRepository {
       email: email,
       password: password,
     );
+  }
+
+  @override
+  Stream<bool> authStateChanges() {
+    return _firebaseSource.authStateChanges();
+  }
+
+  @override
+  Future<void> logout() {
+    return _firebaseSource.logout();
   }
 }

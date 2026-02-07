@@ -10,4 +10,14 @@ class UserModel extends UserEntity {
   factory UserModel.fromFirebase(String id, String email, String name) {
     return UserModel(id: id, email: email, name: name);
   }
+  @override
+  String toString() {
+    return '''
+      UserModel(
+        id: $id,
+        name: $name,
+        email: $email
+      )
+    ''';
+  }
 }

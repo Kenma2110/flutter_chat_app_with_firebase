@@ -4,23 +4,23 @@ abstract class AuthEvent {
   const AuthEvent();
 }
 
-class LoginRequest extends AuthEvent {
+class LoginRequestEvent extends AuthEvent {
   final String email;
   final String password;
-  const LoginRequest({required this.email, required this.password});
+  const LoginRequestEvent({required this.email, required this.password});
 }
 
-class SignUpRequest extends AuthEvent {
+class SignUpRequestEvent extends AuthEvent {
   final String name;
   final String email;
   final String password;
-  const SignUpRequest({
+  const SignUpRequestEvent({
     required this.name,
     required this.email,
     required this.password,
   });
 }
 
-class LogoutRequest extends AuthEvent {
-  const LogoutRequest();
+class LogoutRequestEvent extends AuthEvent {
+  const LogoutRequestEvent();
 }
